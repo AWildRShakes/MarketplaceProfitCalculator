@@ -1,0 +1,12 @@
+*.jpg
+*.png
+*.pyc
+*.log
+*.csv
+*.env
+*.pyd
+*.zip
+*.dll
+*dist-info*
+*.typed
+*.pyi
