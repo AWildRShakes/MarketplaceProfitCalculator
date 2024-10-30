@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
         self.setup_ui()
         
     def setup_ui(self):
-        self.setWindowTitle("Product Selling Calculator")
+        self.setWindowTitle("Marketplace Profit Calculator")
         self.setMinimumWidth(800)
         
         # Create central widget and main layout

@@ -1,4 +1,4 @@
-# Marketplace Product Selling Calculator
+# Marketplace App
 
 A PyQt5-based GUI application for calculating selling profits across different marketplaces, taking into account various fees, shipping costs, and seller tiers.
 

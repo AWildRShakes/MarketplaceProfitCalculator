@@ -1,13 +1,118 @@
 {
     "name": "TCGPlayer",
     "tiers": {
-        "marketplace_seller": {
+        "marketplace_seller_level_1_4": {
             "name": "Marketplace Seller (Level 1-4 Account)",
             "fees": {
                 "marketplace_commission": {
                     "type": "percentage",
                     "value": 10.25,
                     "application": "per_item"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "marketplace_seller_pro_non_direct": {
+            "name": "Marketplace Seller (Pro, Non-Direct Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 9.25,
+                    "application": "per_item"
+                },
+                "pro_fee": {
+                    "type": "percentage",
+                    "value": 2.5,
+                    "application": "per_order"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "marketplace_seller_sync_account": {
+            "name": "Marketplace Seller (Crystal Commerce, BinderPOS, or Ion Sync Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 9.25,
+                    "application": "per_item"
+                },
+                "sync_fee": {
+                    "type": "determined_by_sync_provider"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "direct_seller_non_pro_non_sync": {
+            "name": "Direct Seller (Non-Pro, Non-Sync Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 8.95,
+                    "application": "per_item"
+                },
+                "shipping_replacement": {
+                    "type": "varies_by_order_size"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "direct_seller_pro": {
+            "name": "Direct Seller (Pro Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 8.95,
+                    "application": "per_item"
+                },
+                "pro_fee": {
+                    "type": "percentage",
+                    "value": 2.5,
+                    "application": "per_order"
+                },
+                "shipping_replacement": {
+                    "type": "varies_by_order_size"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "direct_seller_sync_account": {
+            "name": "Direct Seller (Crystal Commerce, BinderPOS, or Ion Sync Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 8.95,
+                    "application": "per_item"
+                },
+                "shipping_replacement": {
+                    "type": "varies_by_order_size"
+                },
+                "sync_fee": {
+                    "type": "determined_by_sync_provider"
                 },
                 "processing_fee": {
                     "type": "compound",
