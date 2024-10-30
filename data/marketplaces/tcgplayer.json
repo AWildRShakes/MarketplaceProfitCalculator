@@ -1,1 +1,21 @@
- 
+{
+    "name": "TCGPlayer",
+    "tiers": {
+        "marketplace_seller": {
+            "name": "Marketplace Seller (Level 1-4 Account)",
+            "fees": {
+                "marketplace_commission": {
+                    "type": "percentage",
+                    "value": 10.25,
+                    "application": "per_item"
+                },
+                "processing_fee": {
+                    "type": "compound",
+                    "percentage": 2.5,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        }
+    }
+}

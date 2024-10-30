@@ -1,1 +1,47 @@
- 
+{
+    "name": "UPS",
+    "services": {
+        "ground": {
+            "name": "Ground",
+            "weight_limits": {
+                "min": 0,
+                "max": 150
+            },
+            "rates": [
+                {
+                    "weight_up_to": 1,
+                    "price": 8.50
+                },
+                {
+                    "weight_up_to": 5,
+                    "price": 11.75
+                },
+                {
+                    "weight_up_to": 10,
+                    "price": 15.25
+                }
+            ]
+        },
+        "3day_select": {
+            "name": "3 Day Select",
+            "weight_limits": {
+                "min": 0,
+                "max": 150
+            },
+            "rates": [
+                {
+                    "weight_up_to": 1,
+                    "price": 14.50
+                },
+                {
+                    "weight_up_to": 5,
+                    "price": 18.75
+                },
+                {
+                    "weight_up_to": 10,
+                    "price": 24.25
+                }
+            ]
+        }
+    }
+}

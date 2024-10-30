@@ -1,1 +1,22 @@
- 
+{
+    "name": "USPS",
+    "services": {
+        "first_class": {
+            "name": "First Class Package",
+            "weight_limits": {
+                "min": 0,
+                "max": 16
+            },
+            "rates": [
+                {
+                    "weight_up_to": 4,
+                    "price": 4.50
+                },
+                {
+                    "weight_up_to": 8,
+                    "price": 5.25
+                }
+            ]
+        }
+    }
+}

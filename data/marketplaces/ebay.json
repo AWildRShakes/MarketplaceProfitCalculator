@@ -1,1 +1,37 @@
- 
+{
+    "name": "eBay",
+    "tiers": {
+        "standard": {
+            "name": "Standard Seller",
+            "fees": {
+                "final_value_fee": {
+                    "type": "percentage",
+                    "value": 12.55,
+                    "application": "per_item"
+                },
+                "payment_processing": {
+                    "type": "compound",
+                    "percentage": 2.89,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        },
+        "store": {
+            "name": "Store Subscriber",
+            "fees": {
+                "final_value_fee": {
+                    "type": "percentage",
+                    "value": 10.2,
+                    "application": "per_item"
+                },
+                "payment_processing": {
+                    "type": "compound",
+                    "percentage": 2.89,
+                    "flat_fee": 0.30,
+                    "application": "per_order"
+                }
+            }
+        }
+    }
+}

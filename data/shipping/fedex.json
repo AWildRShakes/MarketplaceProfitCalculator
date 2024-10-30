@@ -1,1 +1,47 @@
- 
+{
+    "name": "FedEx",
+    "services": {
+        "ground": {
+            "name": "Ground",
+            "weight_limits": {
+                "min": 0,
+                "max": 150
+            },
+            "rates": [
+                {
+                    "weight_up_to": 1,
+                    "price": 8.75
+                },
+                {
+                    "weight_up_to": 5,
+                    "price": 12.25
+                },
+                {
+                    "weight_up_to": 10,
+                    "price": 16.50
+                }
+            ]
+        },
+        "express_saver": {
+            "name": "Express Saver",
+            "weight_limits": {
+                "min": 0,
+                "max": 150
+            },
+            "rates": [
+                {
+                    "weight_up_to": 1,
+                    "price": 15.75
+                },
+                {
+                    "weight_up_to": 5,
+                    "price": 19.25
+                },
+                {
+                    "weight_up_to": 10,
+                    "price": 25.50
+                }
+            ]
+        }
+    }
+}
