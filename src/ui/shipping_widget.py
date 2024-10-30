@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                             QComboBox, QLineEdit, QGridLayout, QGroupBox)
 from PyQt5.QtCore import pyqtSignal
-from ..models.shipping import ShippingCarrier
-from ..utils.logger import Logger
+from src.models.shipping import ShippingCarrier
+from src.utils.logger import Logger
 
 class ShippingWidget(QWidget):
     input_changed = pyqtSignal()

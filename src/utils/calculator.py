@@ -1,8 +1,8 @@
 from typing import Dict, List, Optional
-from ..models.marketplace import Marketplace, SellerTier
-from ..models.shipping import ShippingCarrier, ShippingService
+from src.models.marketplace import Marketplace, SellerTier
+from src.models.shipping import ShippingCarrier, ShippingService
 from dataclasses import dataclass
-from .logger import Logger
+from utils.logger import Logger
 
 logger = Logger.get_logger()
 
@@ -21,6 +21,8 @@ class ProfitCalculator:
         self.marketplace = marketplace
         self.shipping_carrier = shipping_carrier
         self.logger = Logger.get_logger()
+        self.logger.info(f"Initialized ProfitCalculator for marketplace: {marketplace.name}, "
+                        f"carrier: {shipping_carrier.name}")
 
     def calculate_profit(
         self,
@@ -31,6 +33,10 @@ class ProfitCalculator:
         tier_id: str,
         shipping_service_id: str
     ) -> ProfitCalculationResult:
+        self.logger.info(f"Starting profit calculation for {quantity} items at ${sale_price} each")
+        self.logger.debug(f"Calculation parameters: cost_per_item=${cost_per_item}, "
+                         f"weight_per_item={weight_per_item}oz, tier={tier_id}, "
+                         f"shipping_service={shipping_service_id}")
         try:
             # Input validation
             if not all([sale_price, quantity, cost_per_item, weight_per_item, tier_id, shipping_service_id]):
@@ -80,8 +86,11 @@ class ProfitCalculator:
             net_profit = gross_revenue - total_cost
             profit_margin = (net_profit / gross_revenue) * 100 if gross_revenue > 0 else 0
 
-            self.logger.debug(f"Final calculations: total_cost=${total_cost:.2f}, "
-                            f"net_profit=${net_profit:.2f}, profit_margin={profit_margin:.2f}%")
+            self.logger.info(f"Completed profit calculation: "
+                           f"revenue=${gross_revenue:.2f}, "
+                           f"fees=${total_marketplace_fees:.2f}, "
+                           f"shipping=${shipping_cost:.2f}, "
+                           f"profit=${net_profit:.2f} ({profit_margin:.1f}%)")
 
             return ProfitCalculationResult(
                 gross_revenue=gross_revenue,
@@ -94,5 +103,5 @@ class ProfitCalculator:
             )
             
         except Exception as e:
-            self.logger.error(f"Error in calculate_profit: {str(e)}", exc_info=True)
+            self.logger.error(f"Error in profit calculation: {str(e)}", exc_info=True)
             raise

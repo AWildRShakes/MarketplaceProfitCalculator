@@ -1,11 +1,11 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QPushButton, 
                             QMessageBox)
-from .marketplace_widget import MarketplaceWidget
-from .shipping_widget import ShippingWidget
-from .product_widget import ProductWidget
-from .results_widget import ResultsWidget
-from ..utils.calculator import ProfitCalculator
-from ..utils.logger import Logger
+from ui.marketplace_widget import MarketplaceWidget
+from ui.shipping_widget import ShippingWidget
+from ui.product_widget import ProductWidget
+from ui.results_widget import ResultsWidget
+from src.utils.calculator import ProfitCalculator
+from src.utils.logger import Logger
 
 class MainWindow(QMainWindow):
     def __init__(self, marketplaces, shipping_carriers):
