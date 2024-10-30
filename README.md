@@ -1,5 +1,5 @@
 # Marketplace App
-
+## This app is currently in development and should not be used for calculations yet.
 A PyQt5-based GUI application for calculating selling profits across different marketplaces, taking into account various fees, shipping costs, and seller tiers.
 
 ## Project Structure
