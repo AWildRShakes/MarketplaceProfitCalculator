@@ -40,11 +40,14 @@ Manages shipping rates and carrier information.
   - Attributes: weight_up_to, price
 - `ShippingService (dataclass)`: 
   - Contains shipping service configuration
+  - Attributes: name, weight_limits, manual_entry (optional)
   - Methods:
     - `get_rate(weight)`: Returns applicable rate for given weight
+    - Supports both weight-based and manual price entry shipping methods
 - `ShippingCarrier (dataclass)`: 
   - Holds carrier information and available services
   - Attributes: name, services dictionary
+  - Supports both standard carriers and manual rate entry
 
 ### UI Components (`src/ui/`)
 
@@ -56,6 +59,7 @@ Integrates all UI components and manages the main application flow.
   - `setup_ui()`: Initializes and arranges UI components
   - `on_input_changed()`: Handles input change events
   - `calculate_profit()`: Triggers profit calculation and updates display
+  - Handles both weight-based and manual shipping price calculations
 
 #### `marketplace_widget.py` - Marketplace Selection UI
 Handles marketplace and seller tier selection.
@@ -88,7 +92,9 @@ Handles shipping carrier and service selection.
   - `get_selected_carrier()`: Returns selected carrier
   - `get_selected_service()`: Returns selected service
   - `get_weight()`: Returns entered weight
-  - `has_valid_inputs()`: Validates all shipping inputs
+  - `get_manual_price()`: Returns manually entered shipping price
+  - `update_manual_price_visibility()`: Toggles visibility of manual price input
+  - `has_valid_inputs()`: Validates all shipping inputs based on service type
 
 #### `results_widget.py` - Results Display UI
 Shows calculation results and fee breakdowns.
@@ -98,6 +104,19 @@ Shows calculation results and fee breakdowns.
   - `setup_ui()`: Creates results display interface
   - `update_results()`: Updates displayed calculation results
   - `reset_results()`: Resets display to default values
+
+### Utilities (`src/utils/`)
+
+#### `calculator.py` - Profit Calculation Logic
+Handles core profit calculation functionality.
+
+**Classes:**
+- `ProfitCalculationResult (dataclass)`: Holds calculation results
+- `ProfitCalculator`:
+  - Methods:
+    - `calculate_profit()`: Performs comprehensive profit calculation
+    - Supports both weight-based and manual shipping price calculations
+    - Validates inputs based on shipping service type
 
 ### Utilities (`src/utils/`)
 
@@ -152,6 +171,7 @@ Initializes and launches the application.
 - JSON files defining shipping carrier services and rates
 - Currently includes:
   - USPS configuration with First Class Package service
+  - Manual shipping rate configuration for custom pricing
   - Fedex example placeholder configuration
   - UPS example placeholder configuration
 
@@ -163,6 +183,8 @@ Initializes and launches the application.
 - Basic GUI components
 - Configuration loading
 - Logging system
+- Manual shipping price entry
+- Dynamic shipping input validation
 
 ⏳ Pending:
 - Comprehensive test suite
