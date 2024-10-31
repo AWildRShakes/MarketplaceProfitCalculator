@@ -47,7 +47,8 @@
                     "application": "per_item"
                 },
                 "sync_fee": {
-                    "type": "determined_by_sync_provider"
+                    "type": "determined_by_sync_provider",
+                    "application": "per_order"
                 },
                 "processing_fee": {
                     "type": "compound",
@@ -66,7 +67,8 @@
                     "application": "per_item"
                 },
                 "shipping_replacement": {
-                    "type": "varies_by_order_size"
+                    "type": "varies_by_order_size",
+                    "application": "per_order"
                 },
                 "processing_fee": {
                     "type": "compound",
@@ -90,7 +92,8 @@
                     "application": "per_order"
                 },
                 "shipping_replacement": {
-                    "type": "varies_by_order_size"
+                    "type": "varies_by_order_size",
+                    "application": "per_order"
                 },
                 "processing_fee": {
                     "type": "compound",
@@ -109,10 +112,12 @@
                     "application": "per_item"
                 },
                 "shipping_replacement": {
-                    "type": "varies_by_order_size"
+                    "type": "varies_by_order_size",
+                    "application": "per_order"
                 },
                 "sync_fee": {
-                    "type": "determined_by_sync_provider"
+                    "type": "determined_by_sync_provider",
+                    "application": "per_order"
                 },
                 "processing_fee": {
                     "type": "compound",

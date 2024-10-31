@@ -99,23 +99,34 @@ class ConfigLoader:
                 logger.debug(f"Processing shipping service: {service_id}")
                 
                 try:
+                    # Check if this is a manual entry service
+                    is_manual = service_data.get("manual_entry", False)
+                    
                     rates = []
-                    for rate_data in service_data["rates"]:
-                        rate = ShippingRate(
-                            weight_up_to=rate_data["weight_up_to"],
-                            price=rate_data["price"]
-                        )
-                        rates.append(rate)
-                        logger.debug(f"Added rate for weight up to {rate.weight_up_to}oz: "
-                                   f"${rate.price}")
+                    # Only process rates if this is not a manual entry service
+                    if not is_manual:
+                        if "rates" not in service_data:
+                            logger.error(f"Missing rates for non-manual service: {service_id}")
+                            raise KeyError("rates")
+                            
+                        for rate_data in service_data["rates"]:
+                            rate = ShippingRate(
+                                weight_up_to=rate_data["weight_up_to"],
+                                price=rate_data["price"]
+                            )
+                            rates.append(rate)
+                            logger.debug(f"Added rate for weight up to {rate.weight_up_to}oz: "
+                                    f"${rate.price}")
                     
                     services[service_id] = ShippingService(
                         name=service_data["name"],
                         weight_limits=service_data["weight_limits"],
-                        rates=rates
+                        rates=rates if not is_manual else None,
+                        manual_entry=is_manual
                     )
                     
-                    logger.debug(f"Created shipping service {service_id} with {len(rates)} rates")
+                    logger.debug(f"Created shipping service {service_id}" + 
+                            (f" with {len(rates)} rates" if not is_manual else " (manual entry)"))
                     
                 except KeyError as e:
                     logger.error(f"Missing required field in service {service_id}: {str(e)}")
@@ -127,7 +138,7 @@ class ConfigLoader:
             )
             
             logger.info(f"Successfully loaded shipping carrier {carrier.name} "
-                       f"with {len(carrier.services)} services")
+                    f"with {len(carrier.services)} services")
             return carrier
             
         except FileNotFoundError:

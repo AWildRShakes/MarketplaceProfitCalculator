@@ -17,21 +17,28 @@ class ShippingRate:
 class ShippingService:
     name: str
     weight_limits: Dict[str, float]
-    rates: List[ShippingRate]
+    rates: List[ShippingRate] = None
+    manual_entry: bool = False
 
     def __post_init__(self):
         logger.info(f"Created ShippingService: {self.name}")
         logger.debug(f"Weight limits: min={self.weight_limits['min']}, max={self.weight_limits['max']}")
-        logger.debug(f"Number of rates: {len(self.rates)}")
+        if self.rates:
+            logger.debug(f"Number of rates: {len(self.rates)}")
+        if self.manual_entry:
+            logger.debug("Manual entry enabled for this service")
 
-    def get_rate(self, weight: float) -> Optional[float]:
+    def get_rate(self, weight: float, manual_price: float = None) -> Optional[float]:
         logger.debug(f"Getting shipping rate for weight: {weight}")
         
         if weight < self.weight_limits["min"] or weight > self.weight_limits["max"]:
             logger.warning(f"Weight {weight} is outside limits: "
                          f"min={self.weight_limits['min']}, max={self.weight_limits['max']}")
             return None
-        
+
+        if self.manual_entry:
+            return manual_price
+
         for rate in sorted(self.rates, key=lambda x: x.weight_up_to):
             if weight <= rate.weight_up_to:
                 logger.debug(f"Found applicable rate: {rate.price} for weight {weight}")

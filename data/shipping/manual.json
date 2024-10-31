@@ -1,0 +1,13 @@
+{
+    "name": "Manual",
+    "services": {
+        "manual_rate": {
+            "name": "Manual Rate",
+            "weight_limits": {
+                "min": 0,
+                "max": 99999
+            },
+            "manual_entry": true
+        }
+    }
+}

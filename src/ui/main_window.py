@@ -67,6 +67,22 @@ class MainWindow(QMainWindow):
             marketplace = self.marketplaces[marketplace_name]
             carrier = self.shipping_carriers[carrier_name]
             
+            # Get shipping service and check if it's manual entry
+            service_id = self.shipping_widget.get_selected_service()
+            service = carrier.services[service_id]
+            is_manual = getattr(service, 'manual_entry', False)
+            
+            # Prepare shipping parameters
+            manual_shipping_price = None
+            weight_per_item = 0.0
+            
+            if is_manual:
+                manual_shipping_price = self.shipping_widget.get_manual_price()
+                self.logger.debug(f"Using manual shipping price: ${manual_shipping_price:.2f}")
+            else:
+                weight_per_item = self.shipping_widget.get_weight()
+                self.logger.debug(f"Using weight-based shipping: {weight_per_item}oz")
+            
             # Create calculator
             calculator = ProfitCalculator(marketplace, carrier)
             
@@ -75,9 +91,10 @@ class MainWindow(QMainWindow):
                 sale_price=self.product_widget.get_sale_price(),
                 quantity=self.product_widget.get_quantity(),
                 cost_per_item=self.product_widget.get_cost_per_item(),
-                weight_per_item=self.shipping_widget.get_weight(),
+                weight_per_item=weight_per_item,
                 tier_id=self.marketplace_widget.get_selected_tier(),
-                shipping_service_id=self.shipping_widget.get_selected_service()
+                shipping_service_id=service_id,
+                manual_shipping_price=manual_shipping_price
             )
             
             # Update results

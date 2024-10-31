@@ -31,6 +31,7 @@ class ShippingWidget(QWidget):
         # Service selection
         shipping_layout.addWidget(QLabel("Service:"), 1, 0)
         self.service_combo = QComboBox()
+        self.service_combo.currentTextChanged.connect(self.update_manual_price_visibility)
         self.service_combo.currentTextChanged.connect(self.input_changed.emit)
         shipping_layout.addWidget(self.service_combo, 1, 1)
         
@@ -41,13 +42,47 @@ class ShippingWidget(QWidget):
         self.weight_input.textChanged.connect(self.input_changed.emit)
         shipping_layout.addWidget(self.weight_input, 2, 1)
         
+        # Manual price input
+        shipping_layout.addWidget(QLabel("Manual price ($):"), 3, 0)
+        self.manual_price_input = QLineEdit()
+        self.manual_price_input.setPlaceholderText("Enter shipping price")
+        self.manual_price_input.textChanged.connect(self.input_changed.emit)
+        shipping_layout.addWidget(self.manual_price_input, 3, 1)
+        
         shipping_group.setLayout(shipping_layout)
         layout.addWidget(shipping_group)
         
-        # Initialize services
+        # Initialize services and manual price visibility
         self.update_services()
+        self.update_manual_price_visibility()
         self.logger.debug("ShippingWidget UI setup completed")
+
+    def update_manual_price_visibility(self):
+        carrier_name = self.get_selected_carrier()
+        service_name = self.get_selected_service()
+        
+        if (carrier_name in self.carriers and 
+            service_name in self.carriers[carrier_name].services):
+            service = self.carriers[carrier_name].services[service_name]
+            is_manual = getattr(service, 'manual_entry', False)
+        else:
+            is_manual = False
+            
+        self.manual_price_input.setVisible(is_manual)
+        self.manual_price_input.setEnabled(is_manual)
+        self.weight_input.setEnabled(not is_manual)
     
+    def get_manual_price(self) -> float:
+        try:
+            price = float(self.manual_price_input.text())
+            if price < 0:
+                self.logger.warning(f"Invalid manual price entered: {price}")
+                return 0.0
+            return price
+        except ValueError:
+            self.logger.warning(f"Invalid manual price format: {self.manual_price_input.text()}")
+            return 0.0
+
     def update_services(self):
         carrier_name = self.carrier_combo.currentText()
         self.service_combo.clear()
@@ -82,32 +117,38 @@ class ShippingWidget(QWidget):
     
     def has_valid_inputs(self) -> bool:
         try:
-            # Check if carrier is selected
             carrier_name = self.get_selected_carrier()
             if not carrier_name or carrier_name not in self.carriers:
                 self.logger.debug("Invalid or missing carrier selection")
                 return False
             
-            # Check if service is selected
             service_name = self.get_selected_service()
             if not service_name or service_name not in self.carriers[carrier_name].services:
                 self.logger.debug("Invalid or missing service selection")
                 return False
             
-            # Check if weight is valid
-            weight = self.get_weight()
-            if weight <= 0:
-                self.logger.debug(f"Invalid weight: {weight}")
-                return False
-            
-            # Check if weight is within service limits
             service = self.carriers[carrier_name].services[service_name]
-            if (weight < service.weight_limits['min'] or 
-                weight > service.weight_limits['max']):
-                self.logger.debug(f"Weight {weight} outside service limits: "
-                                f"min={service.weight_limits['min']}, "
-                                f"max={service.weight_limits['max']}")
-                return False
+            is_manual = getattr(service, 'manual_entry', False)
+            
+            if is_manual:
+                # For manual entry, only check if price is valid
+                price = self.get_manual_price()
+                if price <= 0:
+                    self.logger.debug(f"Invalid manual price: {price}")
+                    return False
+            else:
+                # For weight-based shipping, check weight and limits
+                weight = self.get_weight()
+                if weight <= 0:
+                    self.logger.debug(f"Invalid weight: {weight}")
+                    return False
+                
+                if (weight < service.weight_limits['min'] or 
+                    weight > service.weight_limits['max']):
+                    self.logger.debug(f"Weight {weight} outside service limits: "
+                                    f"min={service.weight_limits['min']}, "
+                                    f"max={service.weight_limits['max']}")
+                    return False
             
             return True
             
